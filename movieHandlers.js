@@ -6,7 +6,7 @@ const movies = [
     title: "Citizen Kane",
     director: "Orson Wells",
     year: "1941",
-    colors: false,
+    color: false,
     duration: 120,
   },
   {
@@ -14,7 +14,7 @@ const movies = [
     title: "The Godfather",
     director: "Francis Ford Coppola",
     year: "1972",
-    colors: true,
+    color: true,
     duration: 180,
   },
   {
@@ -31,15 +31,16 @@ const getMovies = (req, res) => {
   let sql = "select * from movies";
   const sqlValues = [];
 
-  if (req.query.color !== null) {
-    sql += "where color = ?";
+  if (req.query.color !== undefined) {
+    sql += " where color = ?";
     sqlValues.push(req.query.color);
-    if (req.query.max_duration !== null) {
-      sql += "and duration <= ?";
+
+    if (req.query.max_duration !== undefined) {
+      sql += " and duration <= ?";
       sqlValues.push(req.query.max_duration);
     }
-  } else if (req.query.max_duration !== null) {
-    sql += "where duration <= ?";
+  } else if (req.query.max_duration !== undefined) {
+    sql += " where duration <= ?";
     sqlValues.push(req.query.max_duration);
   }
 
