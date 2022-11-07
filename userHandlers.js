@@ -7,7 +7,7 @@ const getUsers = (req, res) => {
       res.status(200).json(users);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send("Error retrieving data from database");
     });
 };
@@ -26,7 +26,7 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send("Error retrieving data from database");
     });
 };
@@ -43,7 +43,7 @@ const postUser = (req, res) => {
       res.location(`/api/users/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send("Error saving the user");
     });
 };
@@ -65,7 +65,7 @@ const updateUser = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send("Error editing the user");
     });
 };
@@ -83,7 +83,7 @@ const deleteUser = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send("Error deleting the user");
     });
 };
