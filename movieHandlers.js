@@ -52,12 +52,12 @@ const getMovieById = (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error retrieving data from database");
     });
 };
 
 const postMovie = (req, res) => {
-  console.log(req.body);
   const { title, director, year, color, duration } = req.body;
 
   database
@@ -69,6 +69,7 @@ const postMovie = (req, res) => {
       res.location(`/api/movies/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error saving the movie");
     });
 };
@@ -90,7 +91,26 @@ const updateMovie = (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error editing the movie");
+    });
+};
+
+const deleteMovie = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database
+    .query("DELETE FROM movies WHERE id = ?", [id])
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.status(404).send("Not Found");
+      } else {
+        res.sendStatus(200);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error deleting the movie");
     });
 };
 
@@ -99,4 +119,5 @@ module.exports = {
   getMovieById,
   postMovie,
   updateMovie,
+  deleteMovie,
 };

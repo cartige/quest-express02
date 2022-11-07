@@ -26,12 +26,12 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error retrieving data from database");
     });
 };
 
 const postUser = (req, res) => {
-  console.log(req.body);
   const { firstname, lastname, email, city, language } = req.body;
 
   database
@@ -43,6 +43,7 @@ const postUser = (req, res) => {
       res.location(`/api/users/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error saving the user");
     });
 };
@@ -64,7 +65,26 @@ const updateUser = (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("Error editing the user");
+    });
+};
+
+const deleteUser = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database
+    .query("DELETE FROM users WHERE id = ?", [id])
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.status(404).send("Not Found");
+      } else {
+        res.sendStatus(200);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error deleting the user");
     });
 };
 
@@ -73,4 +93,5 @@ module.exports = {
   getUserById,
   postUser,
   updateUser,
+  deleteUser,
 };
